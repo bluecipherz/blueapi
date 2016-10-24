@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Wallet;
 use App\WalletReport;
+use App\Notification;
+use App\User;
 
 class RoomManagerController extends Controller {
 
@@ -52,11 +54,24 @@ class RoomManagerController extends Controller {
 		$WalletReport = new WalletReport;
 		$WalletReport->description = $request->input('description');
 		$WalletReport->user_id = $request->input('user_id');
-		$WalletReport->cat_id = $request->input('cat_id');
 		$WalletReport->amount = $request->input('amount');
-		$WalletReport->verified = $request->input('verified'); 
+		$WalletReport->cat = 'FUND_INSERTED';
+		$WalletReport->verified = false; 
 		$WalletReport->save();
-		
+
+		// send notification to everyone where id = $walletReport->id 
+		$user = User::find($WalletReport->user_id);
+
+		$notification =  new Notification;
+		$notification->heading = 'Fund Inserted';
+		$notification->description = $user->name .' inserted '.$WalletReport->amount.' Rs in the Room Wallet';
+		$notification->cat = 'ROOM_WALLET';
+		$notification->link_type = 'FUND_INSERTED';
+		$notification->link_id = $WalletReport->id;
+		$notification->user_id = $user->id;
+		$notification->seen = false;
+		$notification->save();
+
 		// update wallet
 		$walletAmout = Wallet::find(1);
 		if(isset($walletAmout)){

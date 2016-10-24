@@ -56,8 +56,11 @@ Route::group(array('prefix' => 'api'), function() {
     Route::post('profile_update', 'UserController@update');
     Route::post('profile_change_pass', 'UserController@changePassword');
 
-    // Room manager
+    // Notification
 
+    Route::get('notification/{id}', 'NotificationController@index');
+
+    // Room manager
 
     Route::get('room_manager', 'RoomManagerController@index');
     Route::post('room_manager/insert_fund', 'RoomManagerController@insertFund');
