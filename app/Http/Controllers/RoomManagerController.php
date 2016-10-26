@@ -55,23 +55,13 @@ class RoomManagerController extends Controller {
 		$WalletReport->description = $request->input('description');
 		$WalletReport->user_id = $request->input('user_id');
 		$WalletReport->amount = $request->input('amount');
-		$WalletReport->cat = 'FUND_INSERTED';
+		$WalletReport->cat = 'ROOM_WALLET';
+		$WalletReport->link_type = 'FUND_INSERTED';
 		$WalletReport->verified = false; 
-		$WalletReport->save();
+		$WalletReport->save(); 
 
-		// send notification to everyone where id = $walletReport->id 
-		$user = User::find($WalletReport->user_id);
-
-		$notification =  new Notification;
-		$notification->heading = 'Fund Inserted';
-		$notification->description = $user->name .' inserted '.$WalletReport->amount.' Rs in the Room Wallet';
-		$notification->cat = 'ROOM_WALLET';
-		$notification->link_type = 'FUND_INSERTED';
-		$notification->link_id = $WalletReport->id;
-		$notification->user_id = $user->id;
-		$notification->seen = false;
-		$notification->save();
-
+		$not = new Notification;
+		$not->newNotification($WalletReport);
 		// update wallet
 		$walletAmout = Wallet::find(1);
 		if(isset($walletAmout)){
@@ -83,7 +73,7 @@ class RoomManagerController extends Controller {
 		}
 		$walletAmout->save();
 
-		return ['status'=>true, 'message'=> 'Request Successful'];
+		return ['status'=>true, 'message'=> 'Request Successful', 'response'=>$WalletReport];
 	}
 
 

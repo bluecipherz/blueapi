@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Notification; 
 use App\WalletReport; 
+use App\User; 
 
 class NotificationController extends Controller {
 
@@ -18,13 +19,15 @@ class NotificationController extends Controller {
 	{
 		$id = (int) $id; 
 
-		$notifications = Notification::where('user_id','=', $id)->where('seen','=',false)
+		$notifications = Notification::where('user_id','=', $id)
+			   // ->where('seen','=',false)
                ->orderBy('created_at', 'desc')
                ->take(10)
                ->get();
 
 		for ($idx = 0;$idx < count($notifications); $idx++) {
 			$notifications[$idx]->notification = WalletReport::find($notifications[$idx]->link_id);
+			$notifications[$idx]->user = User::find($notifications[$idx]->user_id);
 		}
 
 		return $notifications;

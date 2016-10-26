@@ -17,7 +17,8 @@ class RoomManageerTables extends Migration {
 			$table->increments('id'); 
             $table->string('description'); 
 		 	$table->integer('user_id'); 
-			$table->string('cat');  
+			$table->string('cat');   
+			$table->string('link_type');  
 			$table->integer('amount');  
 			$table->boolean('verified'); 
 			$table->timestamps(); 
