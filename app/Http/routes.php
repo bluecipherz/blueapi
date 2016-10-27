@@ -60,6 +60,8 @@ Route::group(array('prefix' => 'api'), function() {
 
     Route::get('notification/{id}', 'NotificationController@index');
 
+    Route::post('verify', 'verificationController@verify');
+
     // Room manager
 
     Route::get('room_manager', 'RoomManagerController@index');

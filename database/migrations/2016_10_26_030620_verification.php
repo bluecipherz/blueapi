@@ -16,9 +16,18 @@ class Verification extends Migration {
 		{
 			$table->increments('id');     
 			$table->integer('verification_id');   
-			$table->integer('current');  
+			$table->integer('user_id');  
 			$table->integer('limit');  
 			$table->boolean('verified'); 
+			$table->string('cat'); 
+			$table->string('link_type'); 
+			$table->timestamps(); 
+		});  
+		Schema::create('verification_pevote', function(Blueprint $table)
+		{
+			$table->increments('id');     
+			$table->integer('verification_id');   
+			$table->integer('user_id');   
 			$table->timestamps(); 
 		});  
 	} 
@@ -30,6 +39,7 @@ class Verification extends Migration {
 	public function down()
 	{
 		Schema::drop('verification');
+		Schema::drop('verification_pevote');
 	}
 
 

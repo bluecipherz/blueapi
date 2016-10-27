@@ -1,13 +1,23 @@
 <?php namespace App;
-
-
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\SoftDeletes; 
+ 
+use Illuminate\Database\Eloquent\Model; 
+use App\WalletReport;
 
 class Wallet extends Model {
+
 	protected $table = 'room_wallet'; 
+
+	public function processFundInsertion($id){
+		$WalletReport = WalletReport::find($id);
+		$walletAmout = Wallet::find(1);
+		if(isset($walletAmout)){
+			$walletAmout->amount = $walletAmout->amount + $WalletReport->amount;
+		}else{
+			$walletAmout = new wallet;
+			$walletAmout->amount = $WalletReport->amount;
+			$walletAmout->week_fund = 0;
+		}
+		$walletAmout->save();
+	}
+
 }

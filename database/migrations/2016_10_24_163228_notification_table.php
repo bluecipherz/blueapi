@@ -21,6 +21,7 @@ class NotificationTable extends Migration {
 			$table->string('heading');
 			$table->boolean('seen');  
 			$table->string('link_type'); 
+			$table->string('target_id'); 
 			$table->integer('link_id');
 			$table->timestamps(); 
 		}); 

@@ -8,6 +8,7 @@ use App\Wallet;
 use App\WalletReport;
 use App\Notification;
 use App\User;
+use App\Verification;
 
 class RoomManagerController extends Controller {
 
@@ -35,17 +36,7 @@ class RoomManagerController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		// $taskbag = new Taskbag;
 
-		// $taskbag->name = $request->input('name'); 
-		// $taskbag->parent_id = $request->input('parent_id');
-		// $taskbag->type = $request->input('type');
-		// $taskbag->project_id = $request->input('project_id');
-		// $taskbag->level = $request->input('level');
-
-		// $taskbag->save();
-
-		// return $taskbag;
 	}
 
 	public function insertFund(Request $request)
@@ -61,17 +52,11 @@ class RoomManagerController extends Controller {
 		$WalletReport->save(); 
 
 		$not = new Notification;
-		$not->newNotification($WalletReport);
+		$not->newNotification($WalletReport, 0);
+
+		$ver = new Verification;
+		$ver->registerVerification(3, $WalletReport);
 		// update wallet
-		$walletAmout = Wallet::find(1);
-		if(isset($walletAmout)){
-			$walletAmout->amount = $walletAmout->amount + $request->input('amount');
-		}else{
-			$walletAmout = new wallet;
-			$walletAmout->amount = $request->input('amount');
-			$walletAmout->week_fund = 0;
-		}
-		$walletAmout->save();
 
 		return ['status'=>true, 'message'=> 'Request Successful', 'response'=>$WalletReport];
 	}
@@ -107,18 +92,7 @@ class RoomManagerController extends Controller {
 	 */
 	public function update(Request $request)
 	{
-		// $id = (int) $request->input('id');
-		// $taskbag = Taskbag::find($id);
-
-		// $taskbag->name = $request->input('name'); 
-		// $taskbag->parent_id = $request->input('parent_id');
-		// $taskbag->type = $request->input('type');
-		// $taskbag->project_id = $request->input('project_id');
-		// $taskbag->level = $request->input('level');
-
-		// $taskbag->save();
-
-		// return $taskbag;
+		
 	}
 
 

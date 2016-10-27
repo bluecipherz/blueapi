@@ -19,7 +19,8 @@ class NotificationController extends Controller {
 	{
 		$id = (int) $id; 
 
-		$notifications = Notification::where('user_id','=', $id)
+		$notifications = Notification::where('target_id','=', $id)
+			   ->orWhere('target_id','=', 0)
 			   // ->where('seen','=',false)
                ->orderBy('created_at', 'desc')
                ->take(10)
